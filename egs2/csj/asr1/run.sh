@@ -19,10 +19,16 @@ speed_perturb_factors="0.9 1.0 1.1"
 
 # NOTE: The default settings require 4 GPUs with 32 GB memory
 ./asr.sh \
-    --ngpu 4 \
+    --asr_args "--use_wandb true --wandb_project wav2vec_transformer_training" \
+    --pretrained_model "exp/asr_train_asr_transformer_raw_jp_char_sp/31epoch.pth"\
+    --ignore_init_mismatch true \
+    --stage 11 \
+    --ngpu 1 \
     --lang jp \
     --token_type char \
+    --feats_normalize \
     --feats_type raw \
+    --inference_asr_model 31epoch.pth \
     --asr_config "${asr_config}" \
     --inference_config "${inference_config}" \
     --lm_config "${lm_config}" \

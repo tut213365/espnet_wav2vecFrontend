@@ -622,6 +622,7 @@ class AbsTask(ABC):
 
         group = parser.add_argument_group("Pretraining model related")
         group.add_argument("--pretrain_path", help="This option is obsoleted")
+        group.add_argument("--load_model_strict", help="boolian of load state strict")
         group.add_argument(
             "--init_param",
             type=str,
