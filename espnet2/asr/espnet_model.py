@@ -8,6 +8,7 @@ from typeguard import check_argument_types
 
 from espnet2.asr.ctc import CTC
 from espnet2.asr.decoder.abs_decoder import AbsDecoder
+from espnet2.asr.predecoder.abs_predecoder import AbsPreDecoder
 from espnet2.asr.encoder.abs_encoder import AbsEncoder
 from espnet2.asr.frontend.abs_frontend import AbsFrontend
 from espnet2.asr.postencoder.abs_postencoder import AbsPostEncoder
@@ -47,6 +48,7 @@ class ESPnetASRModel(AbsESPnetModel):
         preencoder: Optional[AbsPreEncoder],
         encoder: AbsEncoder,
         postencoder: Optional[AbsPostEncoder],
+        predecoder: Optional[AbsPreDecoder],
         decoder: AbsDecoder,
         ctc: CTC,
         joint_network: Optional[torch.nn.Module],
@@ -94,6 +96,7 @@ class ESPnetASRModel(AbsESPnetModel):
 
         self.error_calculator = None
 
+        self.predecoder = predecoder
         if self.use_transducer_decoder:
             from warprnnt_pytorch import RNNTLoss
 
@@ -397,6 +400,10 @@ class ESPnetASRModel(AbsESPnetModel):
         ys_in_pad, ys_out_pad = add_sos_eos(ys_pad, self.sos, self.eos, self.ignore_id)
         ys_in_lens = ys_pad_lens + 1
 
+        # 0. predecoder
+        if self.predecoder is not None:
+            encoder_out, encoder_out_lens = self.predecoder(encoder_out, encoder_out_lens)
+
         # 1. Forward decoder
         decoder_out, _ = self.decoder(
             encoder_out, encoder_out_lens, ys_in_pad, ys_in_lens
@@ -471,6 +478,10 @@ class ESPnetASRModel(AbsESPnetModel):
     ):
         ys_in_pad, ys_out_pad = add_sos_eos(ys_pad, self.sos, self.eos, self.ignore_id)
         ys_in_lens = ys_pad_lens + 1
+        
+        # 0. predecoder
+        if self.predecoder is not None:
+            encoder_out, encoder_out_lens = self.predecoder(encoder_out, encoder_out_lens)
 
         # 1. Forward decoder
         decoder_out, _ = self.decoder(

@@ -19,10 +19,20 @@ input_size: 2048
 encoder: wav2vec2
 encoder_conf:
     output_size: 512
-    use_transformer_layer: true
+    use_transformer_layer: false
     transformer_layer_num: 2
     w2v_url: ./exp/w2v_laborotv_20221017/checkpoint_best.pt
 
+predecoder: minitransformer
+predecoder_conf:
+    output_size: 512
+    transformer_layer_num: 1
+    normalize_before: true
+    normalize_after: true
+    dropout_rate: 0.1
+    attention_heads: 4
+    attention_dropout_rate: 0.0
+    linear_units: 2048
 
 # decoder related
 decoder: transformer

@@ -7,6 +7,8 @@ import torch
 from typeguard import check_argument_types, check_return_type
 
 from espnet2.asr.ctc import CTC
+from espnet2.asr.predecoder.abs_predecoder import AbsPreDecoder
+from espnet2.asr.predecoder.mini_transformer_block_predecoder import MiniTransformerBlockPredecoder
 from espnet2.asr.decoder.abs_decoder import AbsDecoder
 from espnet2.asr.decoder.mlm_decoder import MLMDecoder
 from espnet2.asr.decoder.rnn_decoder import RNNDecoder
@@ -146,6 +148,14 @@ postencoder_choices = ClassChoices(
     default=None,
     optional=True,
 )
+predecoder_choices = ClassChoices(
+    "predecoder",
+    classes=dict(
+        minitransformer=MiniTransformerBlockPredecoder
+    ),
+    type_check=AbsPreDecoder,
+    default="minitransformer"
+)
 decoder_choices = ClassChoices(
     "decoder",
     classes=dict(
@@ -183,6 +193,8 @@ class ASRTask(AbsTask):
         encoder_choices,
         # --postencoder and --postencoder_conf
         postencoder_choices,
+        # --predecoder and --predecoder_conf
+        predecoder_choices,
         # --decoder and --decoder_conf
         decoder_choices,
     ]
@@ -464,6 +476,16 @@ class ASRTask(AbsTask):
         else:
             postencoder = None
 
+        # 5. Pre-Decoder block
+        if getattr(args, "predecoder", None) is not None:
+            predecoder_class = predecoder_choices.get_class(args.predecoder)
+            predecoder = predecoder_class(
+                input_size=encoder_output_size, **args.predecoder_conf
+            )
+            encoder_output_size = predecoder.output_size()
+        else:
+            predecoder = None
+
         # 5. Decoder
         decoder_class = decoder_choices.get_class(args.decoder)
 
@@ -507,6 +529,7 @@ class ASRTask(AbsTask):
             preencoder=preencoder,
             encoder=encoder,
             postencoder=postencoder,
+            predecoder=predecoder,
             decoder=decoder,
             ctc=ctc,
             joint_network=joint_network,
