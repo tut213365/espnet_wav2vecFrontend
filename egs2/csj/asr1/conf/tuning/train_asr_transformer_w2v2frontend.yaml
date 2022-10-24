@@ -1,7 +1,7 @@
 # This configuration requires 4 GPUs with 32GB memory
 batch_type: numel
-batch_bins: 3750000
-accum_grad: 24
+batch_bins: 2812500
+accum_grad: 32
 max_epoch: 100
 patience: none
 # The initialization method for model parameters
@@ -22,7 +22,7 @@ encoder_conf:
     positional_dropout_rate: 0.1
     attention_dropout_rate: 0.1
     input_layer: conv2d6
-    normalize_before: true
+    normalize_before: false
 
 decoder: transformer
 decoder_conf:
@@ -45,6 +45,13 @@ optim_conf:
 scheduler: warmuplr
 scheduler_conf:
     warmup_steps: 25000
+
+frontend: w2v_frontend
+frontend_conf:
+    w2v_url: "/home/kinouchitakahiro/Documents/research/wav2vec_asr_espnet/espnet/egs2/csj/asr1/exp/w2v_laborotv_20221017/checkpoint_best.pt"
+    output_size: 512
+
+normalize: null
 
 specaug: specaug
 specaug_conf:

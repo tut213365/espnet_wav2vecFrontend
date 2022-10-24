@@ -40,6 +40,7 @@ from espnet2.asr.espnet_model import ESPnetASRModel
 from espnet2.asr.frontend.abs_frontend import AbsFrontend
 from espnet2.asr.frontend.default import DefaultFrontend
 from espnet2.asr.frontend.fused import FusedFrontends
+from espnet2.asr.frontend.wav2vec_frontend import Wav2Vec2Frontend
 from espnet2.asr.frontend.s3prl import S3prlFrontend
 from espnet2.asr.frontend.windowing import SlidingWindow
 from espnet2.asr.maskctc_model import MaskCTCModel
@@ -75,6 +76,7 @@ frontend_choices = ClassChoices(
         sliding_window=SlidingWindow,
         s3prl=S3prlFrontend,
         fused=FusedFrontends,
+        w2v_frontend=Wav2Vec2Frontend
     ),
     type_check=AbsFrontend,
     default="default",
@@ -514,8 +516,8 @@ class ASRTask(AbsTask):
 
         # FIXME(kamo): Should be done in model?
         # 8. Initialize
-        if args.init is not None:
-            initialize(model, args.init)
+        # if args.init is not None:
+        #     initialize(model, args.init)
 
         assert check_return_type(model)
         return model
