@@ -23,8 +23,8 @@ speed_perturb_factors="0.9 1.0 1.1"
     --pretrained_model "exp/asr_train_asr_transformer_raw_jp_char_sp/31epoch.pth" \
     --ignore_init_mismatch true \
     --feats_normalize "" \
-    --stage 11 \
-    --ngpu 1 \
+    --ngpu 4 \
+    --dumpdir /mnt/data1/matsumoto/dump \
     --lang jp \
     --token_type char \
     --feats_type raw \
@@ -37,3 +37,4 @@ speed_perturb_factors="0.9 1.0 1.1"
     --test_sets "${test_sets}" \
     --speed_perturb_factors "${speed_perturb_factors}" \
     --lm_train_text "data/train_nodev/text" "$@"
+#    --stage 11 \

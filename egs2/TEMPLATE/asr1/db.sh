@@ -27,8 +27,8 @@ REVERB_OUT="${PWD}/REVERB"  # Output file path
 CHIME3=
 CHIME4=
 CHIME5=
-CSJDATATOP=
-CSJVER=dvd  ## Set your CSJ format (dvd or usb).
+CSJDATATOP="/mnt/data1/dataset/CSJ"
+CSJVER=usb  ## Set your CSJ format (dvd or usb).
             ## Usage    :
             ## Case DVD : We assume CSJ DVDs are copied in this directory with the names dvd1, dvd2,...,dvd17.
             ##            Necessary directory is dvd3 - dvd17.
@@ -43,8 +43,8 @@ HKUST1=
 HKUST2=
 HUI_ACG=downloads
 HUB4_SPANISH=
-LABOROTV=~/dataset/LaboroTVSpeech_v1.0d
-TEDXJP=~/dataset/TEDxJP-10K/TEDxJP-10K_v1.0
+LABOROTV=/mnt/data1/LaboroTVSpeech_v1.0d
+TEDXJP=/mnt/data1/TEDxJP-10K/TEDxJP-10K_v1.0
 LIBRISPEECH=downloads
 LIBRILIGHT_LIMITED=
 FSC=
