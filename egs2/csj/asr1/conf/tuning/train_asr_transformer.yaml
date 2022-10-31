@@ -1,7 +1,7 @@
 # This configuration requires 4 GPUs with 32GB memory
 batch_type: numel
-batch_bins: 3750000
-accum_grad: 24
+batch_bins: 15000000
+accum_grad: 6
 max_epoch: 100
 patience: none
 # The initialization method for model parameters

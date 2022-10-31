@@ -24,6 +24,8 @@ encoder_conf:
     input_layer: conv2d6
     normalize_before: false
 
+predecoder: null
+
 decoder: transformer
 decoder_conf:
     attention_heads: 8
@@ -48,7 +50,7 @@ scheduler_conf:
 
 frontend: w2v_frontend
 frontend_conf:
-    w2v_url: "/home/kinouchitakahiro/Documents/research/wav2vec_asr_espnet/espnet/egs2/csj/asr1/exp/w2v_laborotv_20221017/checkpoint_best.pt"
+    w2v_url: "/home/katsuaki/wav2vec_acoustic_training/outputs/2022-10-30/18-32-23/checkpoints/checkpoint_best.pt"
     output_size: 512
 
 normalize: null
