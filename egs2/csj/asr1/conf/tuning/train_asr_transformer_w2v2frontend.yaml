@@ -11,6 +11,11 @@ best_model_criterion:
     - acc
     - max
 keep_nbest_models: 10
+# 複数GPUのための「おまじない」らしい
+unused_parameters: true
+
+use_wandb: true 
+wandb_project: wav2vec_transformer_frontend_4
 
 encoder: transformer
 encoder_conf:
@@ -21,10 +26,9 @@ encoder_conf:
     dropout_rate: 0.1
     positional_dropout_rate: 0.1
     attention_dropout_rate: 0.1
-    input_layer: conv2d6
+    input_layer: linear
     normalize_before: false
 
-predecoder: null
 
 decoder: transformer
 decoder_conf:
@@ -50,7 +54,7 @@ scheduler_conf:
 
 frontend: w2v_frontend
 frontend_conf:
-    w2v_url: "/home/katsuaki/wav2vec_acoustic_training/outputs/2022-10-30/18-32-23/checkpoints/checkpoint_best.pt"
+    w2v_url: /home/katsuaki/wav2vec_acoustic_training/outputs/2022-11-03/01-16-04/checkpoints/checkpoint_best.pt
     output_size: 512
 
 normalize: null
@@ -70,3 +74,5 @@ specaug_conf:
     - 0
     - 40
     num_time_mask: 2
+
+predecoder: null

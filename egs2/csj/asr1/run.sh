@@ -11,25 +11,25 @@ valid_set=train_dev
 test_sets="eval1 eval2 eval3"
 
 
-# asr_config=conf/tuning/train_asr_transformer_wav2vec.yaml
+# asr_config=conf/tuning/train_asr_transformer.yaml
 asr_config=conf/tuning/train_asr_transformer_w2v2frontend.yaml
 inference_config=conf/decode_asr.yaml
 lm_config=conf/train_lm.yaml
 
 # speed perturbation related
 # (train_set will be "${train_set}_sp" if speed_perturb_factors is specified)
-# speed_perturb_factors="0.9 1.0 1.1"
+speed_perturb_factors="0.9 1.0 1.1"
 
 # NOTE: The default settings require 4 GPUs with 32 GB memory
     # --speed_perturb_factors "${speed_perturb_factors}" \
-#    --stage 11 \
+    # --dumpdir /mnt/data1/matsumoto/dump_wav2vec2_2 \
+    # --pretrained_model "exp/asr_train_asr_transformer_raw_jp_char_sp/31epoch.pth" \
+    # --stop_stage 10 \
 ./asr.sh \
-    --asr_args "--use_wandb true --wandb_project wav2vec_transformer_predecoder" \
-    --pretrained_model "exp/asr_train_asr_transformer_raw_jp_char_sp/31epoch.pth" \
     --ignore_init_mismatch true \
     --feats_normalize "" \
     --ngpu 4 \
-    --dumpdir /mnt/data1/matsumoto/dump_wav2vec2 \
+    --dumpdir  /home/katsuaki/WAV\
     --lang jp \
     --token_type char \
     --feats_type raw \
@@ -40,4 +40,5 @@ lm_config=conf/train_lm.yaml
     --train_set "${train_set}" \
     --valid_set "${valid_set}" \
     --test_sets "${test_sets}" \
+    --stage 11 \
     --lm_train_text "data/train_nodev/text" "$@"
